@@ -18,7 +18,13 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+            $middleware->redirectUsersTo(function ($request) {
+                $locale = $request->segment(1);
+                if (!in_array($locale, ['fr', 'en'])) {
+                    $locale = config('app.locale');
+                }
+                return route('admin.dashboard', ['locale' => $locale]);
+            });
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
