@@ -73,7 +73,14 @@ return [
     |
     */
 
-    'home' => '/admin/dashboard',
+    'home' => function () {
+        $locale = request()->segment(1);
+        if (! in_array($locale, ['fr', 'en'])) {
+            $locale = config('app.locale');
+        }
+
+        return '/'.$locale.'/admin/dashboard';
+    },
 
     /*
     |--------------------------------------------------------------------------
