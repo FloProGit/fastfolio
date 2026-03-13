@@ -17,10 +17,8 @@ Route::middleware(SetLocale::class)->group(function () {
         ->middleware('auth')
         ->name('logout');
 
-
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('admin.dashboard');
     });
 });
-

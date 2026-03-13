@@ -16,7 +16,7 @@ class SetLocale
             app()->setLocale($locale);
         } else {
             // Pas de locale dans l'URL → redirige vers la locale par défaut
-            return redirect('/' . config('app.locale') . '/' . $request->path());
+            return redirect('/'.config('app.locale').'/'.$request->path());
         }
 
         // Pour que route() génère les URLs avec le prefix

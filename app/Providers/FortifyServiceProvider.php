@@ -32,15 +32,15 @@ class FortifyServiceProvider extends ServiceProvider
     {
 
         Fortify::redirects('login', function () {
-            return '/' . app()->getLocale() . '/admin/dashboard';
+            return '/'.app()->getLocale().'/admin/dashboard';
         });
 
         Fortify::loginView(fn () => view('auth.login'));
-//        Fortify::createUsersUsing(CreateNewUser::class);
-//        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
-//        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
-//        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
-//        Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
+        //        Fortify::createUsersUsing(CreateNewUser::class);
+        //        Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
+        //        Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
+        //        Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
+        //        Fortify::redirectUserForTwoFactorAuthenticationUsing(RedirectIfTwoFactorAuthenticatable::class);
 
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());

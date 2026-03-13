@@ -16,4 +16,3 @@ Route::middleware(SetLocale::class)->group(function () {
         ->middleware('auth')
         ->name('logout');
 });
-
