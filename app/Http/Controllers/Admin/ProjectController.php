@@ -7,6 +7,7 @@ use App\Domain\Project\Actions\StoreProjectImages;
 use App\Domain\Project\Actions\UpdateProject;
 use App\Domain\Project\Enums\ProjectStatus;
 use App\Domain\Project\Models\Project;
+use App\Domain\Project\Models\ProjectImage;
 use App\Domain\Skill\Models\Skill;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreProjectRequest;
@@ -64,7 +65,7 @@ class ProjectController extends Controller
         $action->execute($project, $request->validated());
 
         if ($request->has('delete_images')) {
-            /** @var \App\Domain\Project\Models\ProjectImage $image */
+            /** @var ProjectImage $image */
             foreach ($project->images()->whereIn('id', $request->validated('delete_images'))->get() as $image) {
                 Storage::disk('public')->delete($image->path);
                 $image->delete();
