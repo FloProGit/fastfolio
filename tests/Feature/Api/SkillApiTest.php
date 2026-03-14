@@ -13,7 +13,7 @@ class SkillApiTest extends TestCase
     public function test_api_returns_skills(): void
     {
         Skill::factory()->create([
-            'name' => 'Laravel',
+            'name' => ['fr' => 'Laravel', 'en' => 'Laravel'],
             'category' => 'backend',
             'level' => 'expert',
         ]);
@@ -31,8 +31,8 @@ class SkillApiTest extends TestCase
 
     public function test_api_returns_skills_ordered(): void
     {
-        Skill::factory()->create(['name' => 'Vue.js', 'sort_order' => 2]);
-        Skill::factory()->create(['name' => 'Laravel', 'sort_order' => 1]);
+        Skill::factory()->create(['name' => ['fr' => 'Vue.js', 'en' => 'Vue.js'], 'sort_order' => 2]);
+        Skill::factory()->create(['name' => ['fr' => 'Laravel', 'en' => 'Laravel'], 'sort_order' => 1]);
 
         $response = $this->getJson('/api/skills')->assertStatus(200);
 

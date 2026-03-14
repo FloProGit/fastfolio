@@ -13,4 +13,8 @@ return [
         'advanced' => 'Advanced',
         'expert' => 'Expert',
     ],
+    'project_status' => [
+        'draft' => 'draft',
+        'published' => 'published',
+    ],
 ];
