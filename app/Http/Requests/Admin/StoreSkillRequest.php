@@ -17,7 +17,8 @@ class StoreSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'name.fr' => ['required', 'string', 'max:255'],
+            'name.en' => ['required', 'string', 'max:255'],
             'category' => ['required', new Enum(SkillCategory::class)],
             'level' => ['required', new Enum(SkillLevel::class)],
             'icon' => ['nullable', 'string', 'max:255'],

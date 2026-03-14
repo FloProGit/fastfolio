@@ -13,9 +13,11 @@ class SkillResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'name' => $this->name,
+            'name' => $this->getTranslation('name'),
             'category' => $this->category->value,
+            'category_label' => $this->category->label(),
             'level' => $this->level->value,
+            'level_label' => $this->level->label(),
             'icon' => $this->icon,
             'sort_order' => $this->sort_order,
         ];

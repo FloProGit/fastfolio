@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Skill extends Model
 {
-    use HasFactory,HasUuid;
+    use HasFactory, HasUuid;
 
     protected $fillable = [
         'name',
@@ -32,10 +32,23 @@ class Skill extends Model
     protected function casts(): array
     {
         return [
+            'name' => 'array',
             'category' => SkillCategory::class,
             'level' => SkillLevel::class,
             'sort_order' => 'integer',
         ];
+    }
+
+    public function getTranslation(string $field, ?string $locale = null): string
+    {
+        $locale = $locale ?? app()->getLocale();
+        $value = $this->{$field};
+
+        if (is_string($value)) {
+            return $value;
+        }
+
+        return $value[$locale] ?? $value['fr'] ?? '';
     }
 
     public function scopeOrdered($query)

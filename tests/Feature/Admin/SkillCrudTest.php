@@ -1,10 +1,14 @@
 <?php
 
+// tests/Feature/Admin/SkillCrudTest.php
+
 namespace Tests\Feature\Admin;
 
 use App\Domain\Skill\Models\Skill;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\URL;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Tests\TestCase;
 
 class SkillCrudTest extends TestCase
@@ -19,60 +23,103 @@ class SkillCrudTest extends TestCase
         $this->admin = User::factory()->create();
     }
 
-    public function test_guest_cannot_access_skills_index(): void
+    public static function localeProvider(): array
     {
-        $this->get('/fr/admin/skills')
+        return [
+            'english' => ['en'],
+            'french' => ['fr'],
+        ];
+    }
+
+    #[DataProvider('localeProvider')]
+    public function test_guest_cannot_access_skills_index(string $locale): void
+    {
+        URL::defaults(['locale' => $locale]);
+
+        $this->get("/{$locale}/admin/skills")
             ->assertRedirect();
     }
 
-    public function test_admin_can_see_skills_index(): void
+    #[DataProvider('localeProvider')]
+    public function test_admin_can_see_skills_index(string $locale): void
     {
+        URL::defaults(['locale' => $locale]);
         Skill::factory()->create(['name' => 'Laravel']);
 
         $this->actingAs($this->admin)
-            ->get('/fr/admin/skills')
+            ->get("/{$locale}/admin/skills")
             ->assertStatus(200)
             ->assertSee('Laravel');
     }
 
-    public function test_admin_can_see_create_form(): void
+    #[DataProvider('localeProvider')]
+    public function test_admin_can_see_create_form(string $locale): void
     {
+        URL::defaults(['locale' => $locale]);
+
         $this->actingAs($this->admin)
-            ->get('/fr/admin/skills/create')
-            ->assertStatus(200)
-            ->assertSee('Ajouter une compétence');
+            ->get("/{$locale}/admin/skills/create")
+            ->assertStatus(200);
     }
 
-    public function test_admin_can_create_skill(): void
+    #[DataProvider('localeProvider')]
+    public function test_admin_can_create_skill(string $locale): void
     {
+        URL::defaults(['locale' => $locale]);
+
         $this->actingAs($this->admin)
-            ->post('/fr/admin/skills', [
-                'name' => 'Vue.js',
+            ->post("/{$locale}/admin/skills", [
+                'name' => ['fr' => 'Gestion de projet', 'en' => 'Project Management'],
                 'category' => 'frontend',
                 'level' => 'advanced',
                 'icon' => 'devicon-vuejs-plain',
                 'sort_order' => 1,
             ])
-            ->assertRedirect('/fr/admin/skills');
+            ->assertRedirect("/{$locale}/admin/skills");
 
         $this->assertDatabaseHas('skills', [
-            'name' => 'Vue.js',
             'category' => 'frontend',
             'level' => 'advanced',
         ]);
     }
 
-    public function test_create_skill_validates_required_fields(): void
+    #[DataProvider('localeProvider')]
+    public function test_create_skill_validates_required_fields(string $locale): void
     {
+        URL::defaults(['locale' => $locale]);
+
         $this->actingAs($this->admin)
-            ->post('/fr/admin/skills', [])
-            ->assertSessionHasErrors(['name', 'category', 'level']);
+            ->post("/{$locale}/admin/skills", [])
+            ->assertSessionHasErrors(['name.fr', 'name.en', 'category', 'level']);
     }
 
-    public function test_create_skill_validates_enum_values(): void
+    #[DataProvider('localeProvider')]
+    public function test_admin_can_update_skill(string $locale): void
     {
+        URL::defaults(['locale' => $locale]);
+        $skill = Skill::factory()->create();
+
         $this->actingAs($this->admin)
-            ->post('/fr/admin/skills', [
+            ->put("/{$locale}/admin/skills/{$skill->uuid}", [
+                'name' => ['fr' => 'Nouveau nom', 'en' => 'New Name'],
+                'category' => 'backend',
+                'level' => 'expert',
+                'sort_order' => 5,
+            ])
+            ->assertRedirect("/{$locale}/admin/skills");
+
+        $skill->refresh();
+        $this->assertEquals('Nouveau nom', $skill->name['fr']);
+        $this->assertEquals('New Name', $skill->name['en']);
+    }
+
+    #[DataProvider('localeProvider')]
+    public function test_create_skill_validates_enum_values(string $locale): void
+    {
+        URL::defaults(['locale' => $locale]);
+
+        $this->actingAs($this->admin)
+            ->post("/{$locale}/admin/skills", [
                 'name' => 'Test',
                 'category' => 'invalid',
                 'level' => 'invalid',
@@ -80,29 +127,15 @@ class SkillCrudTest extends TestCase
             ->assertSessionHasErrors(['category', 'level']);
     }
 
-    public function test_admin_can_update_skill(): void
+    #[DataProvider('localeProvider')]
+    public function test_admin_can_delete_skill(string $locale): void
     {
-        $skill = Skill::factory()->create(['name' => 'Old Name']);
-
-        $this->actingAs($this->admin)
-            ->put('/fr/admin/skills/'.$skill->uuid, [
-                'name' => 'New Name',
-                'category' => 'backend',
-                'level' => 'expert',
-                'sort_order' => 5,
-            ])
-            ->assertRedirect('/fr/admin/skills');
-
-        $this->assertEquals('New Name', $skill->fresh()->name);
-    }
-
-    public function test_admin_can_delete_skill(): void
-    {
+        URL::defaults(['locale' => $locale]);
         $skill = Skill::factory()->create();
 
         $this->actingAs($this->admin)
-            ->delete('/fr/admin/skills/'.$skill->uuid)
-            ->assertRedirect('/fr/admin/skills');
+            ->delete("/{$locale}/admin/skills/{$skill->uuid}")
+            ->assertRedirect("/{$locale}/admin/skills");
 
         $this->assertDatabaseMissing('skills', ['id' => $skill->id]);
     }

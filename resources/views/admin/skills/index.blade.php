@@ -34,13 +34,13 @@
                     @forelse($skills as $skill)
                         <tr class="even:bg-gray-50 dark:even:bg-gray-800/50">
                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-3 dark:text-white">
-                                {{ $skill->name }}
+                                {{ $skill->getTranslation('name') }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                {{ $skill->category->value }}
+                                {{ $skill->category->label() }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
-                                {{ $skill->level->value }}
+                                {{ $skill->level->label() }}
                             </td>
                             <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500 dark:text-gray-400">
                                 {{ $skill->sort_order }}

@@ -13,8 +13,11 @@ class SkillFactory extends Factory
 
     public function definition(): array
     {
+
+        $word = fake()->unique()->word();
+
         return [
-            'name' => fake()->unique()->word(),
+            'name' => ['fr' => $word, 'en' => $word],
             'category' => fake()->randomElement(SkillCategory::cases()),
             'level' => fake()->randomElement(SkillLevel::cases()),
             'icon' => null,
