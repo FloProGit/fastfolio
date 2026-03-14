@@ -44,7 +44,7 @@ class SkillCrudTest extends TestCase
     public function test_admin_can_see_skills_index(string $locale): void
     {
         URL::defaults(['locale' => $locale]);
-        Skill::factory()->create(['name' => ['fr'=>'Laravel','en'=>'Laravel']]);
+        Skill::factory()->create(['name' => ['fr' => 'Laravel', 'en' => 'Laravel']]);
 
         $this->actingAs($this->admin)
             ->get("/{$locale}/admin/skills")
