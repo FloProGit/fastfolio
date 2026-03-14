@@ -9,6 +9,22 @@
     @stack('styles')
 </head>
 <body class="h-full">
-    @yield('body')
+
+@include('admin.partials.sidebar-mobile')
+@include('admin.partials.sidebar-desktop')
+@include('admin.partials.topbar')
+
+<main class="py-10 lg:pl-72">
+    <div class="px-4 sm:px-6 lg:px-8">
+        @if(session('success'))
+            <div class="mb-4 rounded-md bg-green-50 p-4 dark:bg-green-900/20">
+                <p class="text-sm font-medium text-green-800 dark:text-green-400">{{ session('success') }}</p>
+            </div>
+        @endif
+
+        @yield('content')
+    </div>
+</main>
+
 </body>
 </html>
