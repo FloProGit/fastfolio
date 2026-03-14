@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
@@ -24,5 +25,8 @@ Route::middleware(SetLocale::class)->group(function () {
 
         Route::resource('skills', SkillController::class)
             ->names('admin.skills');
+
+        Route::resource('projects', ProjectController::class)
+            ->names('admin.projects');
     });
 });

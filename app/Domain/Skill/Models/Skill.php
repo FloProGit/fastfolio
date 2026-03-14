@@ -2,12 +2,15 @@
 
 namespace App\Domain\Skill\Models;
 
+use App\Domain\Project\Models\Project;
+use App\Domain\Shared\Traits\HasTranslations;
 use App\Domain\Shared\Traits\HasUuid;
 use App\Domain\Skill\Enums\SkillCategory;
 use App\Domain\Skill\Enums\SkillLevel;
 use Database\Factories\SkillFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property string $uuid
@@ -19,7 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Skill extends Model
 {
-    use HasFactory, HasUuid;
+    use HasFactory, HasTranslations ,HasUuid;
 
     protected $fillable = [
         'name',
@@ -39,18 +42,6 @@ class Skill extends Model
         ];
     }
 
-    public function getTranslation(string $field, ?string $locale = null): string
-    {
-        $locale = $locale ?? app()->getLocale();
-        $value = $this->{$field};
-
-        if (is_string($value)) {
-            return $value;
-        }
-
-        return $value[$locale] ?? $value['fr'] ?? '';
-    }
-
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order');
@@ -64,5 +55,10 @@ class Skill extends Model
     protected static function newFactory()
     {
         return SkillFactory::new();
+    }
+
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Project::class, 'project_skill');
     }
 }
