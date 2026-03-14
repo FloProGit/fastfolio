@@ -19,7 +19,8 @@ class SetLocale
             return redirect('/'.config('app.locale').'/'.$request->path());
         }
 
-        // Pour que route() génère les URLs avec le prefix
+        $request->route()->forgetParameter('locale');
+
         URL::defaults(['locale' => app()->getLocale()]);
 
         return $next($request);

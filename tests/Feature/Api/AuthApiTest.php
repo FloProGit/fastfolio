@@ -10,12 +10,19 @@ class AuthApiTest extends TestCase
 {
     use RefreshDatabase;
 
+    private User $user;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->user = User::factory()->create();
+    }
+
     public function test_login_returns_token()
     {
-        $user = User::factory()->create();
 
         $response = $this->postJson('/api/login', [
-            'email' => $user->email,
+            'email' => $this->user->email,
             'password' => 'password',
         ]);
 
@@ -25,10 +32,9 @@ class AuthApiTest extends TestCase
 
     public function test_login_fails_with_invalid_password()
     {
-        $user = User::factory()->create();
 
         $response = $this->postJson('/api/login', [
-            'email' => $user->email,
+            'email' => $this->user->email,
             'password' => 'wrong-password',
         ]);
 
@@ -51,15 +57,15 @@ class AuthApiTest extends TestCase
 
     public function test_logout_deletes_token()
     {
-        $user = User::factory()->create();
-        $token = $user->createToken('test')->plainTextToken;
+
+        $token = $this->user->createToken('test')->plainTextToken;
 
         $response = $this->withHeader('Authorization', 'Bearer '.$token)
             ->postJson('/api/logout');
 
         $response->assertStatus(200);
 
-        $this->assertCount(0, $user->fresh()->tokens);
+        $this->assertCount(0, $this->user->fresh()->tokens);
     }
 
     public function test_logout_fails_without_auth()
@@ -71,12 +77,11 @@ class AuthApiTest extends TestCase
 
     public function test_return_route_protected_by_token()
     {
-        $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->getJson('/api/user');
+        $response = $this->actingAs($this->user)->getJson('/api/user');
 
         $response->assertStatus(200)
-            ->assertJsonFragment(['email' => $user->email]);
+            ->assertJsonFragment(['email' => $this->user->email]);
     }
 
     public function test_return_route_not_protected_by_token()
