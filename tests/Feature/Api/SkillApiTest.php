@@ -13,17 +13,19 @@ class SkillApiTest extends TestCase
     public function test_api_returns_skills(): void
     {
         Skill::factory()->create([
-            'name' => 'Laravel',
+            'name'     => 'Laravel',
             'category' => 'backend',
-            'level' => 'expert',
+            'level'    => 'expert',
         ]);
 
         $this->getJson('/api/skills')
             ->assertStatus(200)
             ->assertJsonFragment([
-                'name' => 'Laravel',
-                'category' => 'backend',
-                'level' => 'expert',
+                'name'           => 'Laravel',
+                'category'       => 'backend',
+                'category_label' => 'Back-end',
+                'level'          => 'expert',
+                'level_label'    => 'Expert',
             ]);
     }
 
@@ -48,4 +50,42 @@ class SkillApiTest extends TestCase
         $this->assertArrayHasKey('uuid', $firstSkill);
         $this->assertArrayNotHasKey('id', $firstSkill);
     }
+
+
+    public function test_api_returns_skills_in_french(): void
+    {
+        Skill::factory()->create([
+            'name'     => ['fr' => 'Gestion de projet', 'en' => 'Project Management'],
+            'category' => 'backend',
+            'level'    => 'expert',
+        ]);
+
+        $this->getJson('/api/skills',['Accept-Language' => 'fr'])
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'name'           => 'Gestion de projet',
+                'category'       => 'backend',
+                'category_label' => 'Back-end',
+                'level'          => 'expert',
+                'level_label'    => 'Expert',
+            ]);
+    }
+
+    public function test_api_returns_skills_in_english(): void
+    {
+        Skill::factory()->create([
+            'name'     => ['fr' => 'Gestion de projet', 'en' => 'Project Management'],
+            'category' => 'backend',
+            'level'    => 'expert',
+        ]);
+
+        $this->getJson('/api/skills', ['Accept-Language' => 'en'])
+            ->assertStatus(200)
+            ->assertJsonFragment([
+                'name'           => 'Project Management',
+                'category_label' => 'Back-end',
+                'level_label'    => 'Expert',
+            ]);
+    }
+
 }

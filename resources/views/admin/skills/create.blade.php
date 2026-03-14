@@ -12,12 +12,23 @@
 
             <div class="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div class="sm:col-span-4">
-                    <label for="name" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Nom</label>
+                    <label for="name_fr" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Nom (FR)</label>
                     <div class="mt-2">
-                        <input id="name" type="text" name="name" value="{{ old('name') }}"
+                        <input id="name_fr" type="text" name="name[fr]" value="{{ old('name.fr') }}"
                                class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus:outline-indigo-500" />
                     </div>
-                    @error('name')
+                    @error('name.fr')
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="sm:col-span-4">
+                    <label for="name_en" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Nom (EN)</label>
+                    <div class="mt-2">
+                        <input id="name_en" type="text" name="name[en]" value="{{ old('name.en') }}"
+                               class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus:outline-indigo-500" />
+                    </div>
+                    @error('name.en')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
                     @enderror
                 </div>

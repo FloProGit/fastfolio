@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->string('name');
+            $table->json('name');
             $table->string('category');
             $table->string('level');
             $table->string('icon')->nullable();
