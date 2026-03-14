@@ -15,11 +15,12 @@ class SkillFactory extends Factory
     {
 
         $word = fake()->unique()->word();
+
         return [
-            'name'       => ['fr' => $word, 'en' => $word],
-            'category'   => fake()->randomElement(SkillCategory::cases()),
-            'level'      => fake()->randomElement(SkillLevel::cases()),
-            'icon'       => null,
+            'name' => ['fr' => $word, 'en' => $word],
+            'category' => fake()->randomElement(SkillCategory::cases()),
+            'level' => fake()->randomElement(SkillLevel::cases()),
+            'icon' => null,
             'sort_order' => fake()->numberBetween(0, 100),
         ];
     }

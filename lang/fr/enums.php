@@ -3,14 +3,14 @@
 return [
     'skill_category' => [
         'frontend' => 'Front-end',
-        'backend'  => 'Back-end',
-        'devops'   => 'DevOps',
-        'other'    => 'Autre',
+        'backend' => 'Back-end',
+        'devops' => 'DevOps',
+        'other' => 'Autre',
     ],
     'skill_level' => [
-        'beginner'     => 'Débutant',
+        'beginner' => 'Débutant',
         'intermediate' => 'Intermédiaire',
-        'advanced'     => 'Avancé',
-        'expert'       => 'Expert',
+        'advanced' => 'Avancé',
+        'expert' => 'Expert',
     ],
 ];

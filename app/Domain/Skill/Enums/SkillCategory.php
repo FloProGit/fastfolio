@@ -11,6 +11,6 @@ enum SkillCategory: string
 
     public function label(): string
     {
-        return __('enums.skill_category.' . $this->value);
+        return __('enums.skill_category.'.$this->value);
     }
 }

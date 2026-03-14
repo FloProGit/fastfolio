@@ -11,6 +11,6 @@ enum SkillLevel: string
 
     public function label(): string
     {
-        return __('enums.skill_level.' . $this->value);
+        return __('enums.skill_level.'.$this->value);
     }
 }

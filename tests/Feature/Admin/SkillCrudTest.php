@@ -1,4 +1,5 @@
 <?php
+
 // tests/Feature/Admin/SkillCrudTest.php
 
 namespace Tests\Feature\Admin;
@@ -26,7 +27,7 @@ class SkillCrudTest extends TestCase
     {
         return [
             'english' => ['en'],
-            'french'  => ['fr'],
+            'french' => ['fr'],
         ];
     }
 
@@ -68,17 +69,17 @@ class SkillCrudTest extends TestCase
 
         $this->actingAs($this->admin)
             ->post("/{$locale}/admin/skills", [
-                'name'       => ['fr' => 'Gestion de projet', 'en' => 'Project Management'],
-                'category'   => 'frontend',
-                'level'      => 'advanced',
-                'icon'       => 'devicon-vuejs-plain',
+                'name' => ['fr' => 'Gestion de projet', 'en' => 'Project Management'],
+                'category' => 'frontend',
+                'level' => 'advanced',
+                'icon' => 'devicon-vuejs-plain',
                 'sort_order' => 1,
             ])
             ->assertRedirect("/{$locale}/admin/skills");
 
         $this->assertDatabaseHas('skills', [
             'category' => 'frontend',
-            'level'    => 'advanced',
+            'level' => 'advanced',
         ]);
     }
 
@@ -100,9 +101,9 @@ class SkillCrudTest extends TestCase
 
         $this->actingAs($this->admin)
             ->put("/{$locale}/admin/skills/{$skill->uuid}", [
-                'name'       => ['fr' => 'Nouveau nom', 'en' => 'New Name'],
-                'category'   => 'backend',
-                'level'      => 'expert',
+                'name' => ['fr' => 'Nouveau nom', 'en' => 'New Name'],
+                'category' => 'backend',
+                'level' => 'expert',
                 'sort_order' => 5,
             ])
             ->assertRedirect("/{$locale}/admin/skills");
@@ -119,9 +120,9 @@ class SkillCrudTest extends TestCase
 
         $this->actingAs($this->admin)
             ->post("/{$locale}/admin/skills", [
-                'name'     => 'Test',
+                'name' => 'Test',
                 'category' => 'invalid',
-                'level'    => 'invalid',
+                'level' => 'invalid',
             ])
             ->assertSessionHasErrors(['category', 'level']);
     }

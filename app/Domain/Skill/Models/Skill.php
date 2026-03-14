@@ -50,6 +50,7 @@ class Skill extends Model
 
         return $value[$locale] ?? $value['fr'] ?? '';
     }
+
     public function scopeOrdered($query)
     {
         return $query->orderBy('sort_order');
