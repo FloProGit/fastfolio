@@ -6,7 +6,6 @@
     <div class="mx-auto max-w-2xl">
         <h2 class="text-base/7 font-semibold text-gray-900 dark:text-white">Modifier le projet</h2>
         <p class="mt-1 text-sm/6 text-gray-600 dark:text-gray-400">Modifiez les informations du projet.</p>
-
         <form method="POST" action="{{ route('admin.projects.update', $project) }}" enctype="multipart/form-data" class="mt-10">
             @csrf
             @method('PUT')
@@ -63,10 +62,9 @@
 
                 {{-- Extrait FR --}}
                 <div class="sm:col-span-3">
-                    <label for="excerpt_fr" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Extrait (FR)</label>
                     <div class="mt-2">
-                        <textarea id="excerpt_fr" name="excerpt[fr]" rows="3"
-                                  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus:outline-indigo-500">{{ old('excerpt.fr', $project->excerpt['fr'] ?? '') }}</textarea>
+                        <x-quill-editor name="excerpt[fr]" label="Extrait (FR)" :value="old('excerpt.fr', $project->excerpt['fr'] ?? '')" :rows="5" />
+
                     </div>
                     @error('excerpt.fr')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -75,10 +73,9 @@
 
                 {{-- Extrait EN --}}
                 <div class="sm:col-span-3">
-                    <label for="excerpt_en" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Extrait (EN)</label>
                     <div class="mt-2">
-                        <textarea id="excerpt_en" name="excerpt[en]" rows="3"
-                                  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus:outline-indigo-500">{{ old('excerpt.en', $project->excerpt['en'] ?? '') }}</textarea>
+                        <x-quill-editor name="excerpt[en]" label="Extrait (EN)" :value="old('excerpt.en', $project->excerpt['en'] ?? '') " :rows="5" />
+
                     </div>
                     @error('excerpt.en')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -87,10 +84,9 @@
 
                 {{-- Description FR --}}
                 <div class="sm:col-span-3">
-                    <label for="description_fr" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Description (FR)</label>
                     <div class="mt-2">
-                        <textarea id="description_fr" name="description[fr]" rows="5"
-                                  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus:outline-indigo-500">{{ old('description.fr', $project->description['fr'] ?? '') }}</textarea>
+                        <x-quill-editor name="description[fr]" label="Description (FR)" :value="old('description.fr', $project->description['fr'] ?? '') " :rows="5" />
+
                     </div>
                     @error('description.fr')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
@@ -99,10 +95,9 @@
 
                 {{-- Description EN --}}
                 <div class="sm:col-span-3">
-                    <label for="description_en" class="block text-sm/6 font-medium text-gray-900 dark:text-white">Description (EN)</label>
                     <div class="mt-2">
-                        <textarea id="description_en" name="description[en]" rows="5"
-                                  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus:outline-indigo-500">{{ old('description.en', $project->description['en'] ?? '') }}</textarea>
+                        <x-quill-editor name="description[en]" label="Description (EN)" :value=" old('description.en', $project->description['en'] ?? '') " :rows="5" />
+
                     </div>
                     @error('description.en')
                     <p class="mt-2 text-sm text-red-600 dark:text-red-400">{{ $message }}</p>
