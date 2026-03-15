@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
@@ -25,6 +26,11 @@ Route::middleware(SetLocale::class)->group(function () {
             ->name('admin.dashboard');
         Route::get('/profile', [ProfileController::class, 'edit'])->name('admin.profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
+
+        Route::get('contacts', [ContactController::class, 'index'])->name('admin.contacts.index');
+        Route::get('contacts/{message}', [ContactController::class, 'show'])->name('admin.contacts.show');
+        Route::delete('contacts/{message}', [ContactController::class, 'destroy'])->name('admin.contacts.destroy');
+
         Route::resource('skills', SkillController::class)
             ->names('admin.skills');
 
